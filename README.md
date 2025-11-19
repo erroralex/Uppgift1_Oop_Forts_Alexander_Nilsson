@@ -1,4 +1,4 @@
-# Members & Timer (JavaFX)
+# Members & Stopwatch (JavaFX)
 
 A small JavaFX application that manages a list of members and includes a basic stopwatch tool.
 

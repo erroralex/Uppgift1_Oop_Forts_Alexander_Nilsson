@@ -24,13 +24,13 @@ public class MainApp extends Application {
 
         // Members screen
         MembersView membersView = new MembersView();
-        new MembersController(membersView); // handles save + table updates
-        membersScene = new Scene(membersView, 750, 750); // Increased size for better layout
+        new MembersController(membersView);
+        membersScene = new Scene(membersView, 750, 750);
 
         // Stopwatch screen
         StopwatchView stopwatchView = new StopwatchView();
         new StopwatchController(stopwatchView);
-        stopwatchScene = new Scene(stopwatchView.getRoot(), 600, 550); // Increased size
+        stopwatchScene = new Scene(stopwatchView.getRoot(), 600, 550);
 
         // Apply CSS
         String css = getClass().getResource("/com/nilsson/styling/styles.css").toExternalForm();
@@ -47,7 +47,10 @@ public class MainApp extends Application {
         membersView.backButton.setOnAction(e -> window.setScene(menuScene));
         stopwatchView.backButton.setOnAction(e -> window.setScene(menuScene));
 
-        window.setTitle("Members & Timers");
+        window.setTitle("Members & Stopwatch");
+        window.getIcons().add(new javafx.scene.image.Image(
+                getClass().getResource("/com/nilsson/styling/icon.png").toExternalForm()
+        ));
         window.setScene(menuScene);
         window.show();
     }
