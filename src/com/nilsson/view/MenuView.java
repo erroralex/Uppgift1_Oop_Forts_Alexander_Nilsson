@@ -9,7 +9,7 @@ import javafx.scene.layout.VBox;
 public class MenuView {
 
     private final VBox root = new VBox(25);
-    public Button membersButton = new Button("Add Member");
+    public Button membersButton = new Button("Members");
     public Button timerButton = new Button("Timer");
     public Button exitButton = new Button("Exit");
 

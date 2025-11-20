@@ -5,6 +5,7 @@ import com.nilsson.model.Member;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class MemberRepository {
 
@@ -36,5 +37,20 @@ public class MemberRepository {
         }
 
         return list;
+    }
+
+    public static void remove(Member memberToRemove) {
+        List<Member> allMembers = loadAll();
+
+        List<Member> updatedMembers = allMembers.stream().filter(m -> !m.equals(memberToRemove)).collect(Collectors.toList());
+
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_PATH, false))) {
+            for (Member member : updatedMembers) {
+                writer.write(member.getFirstName() + "," + member.getLastName() + "," + member.getPhone() + "," + member.getAddress());
+                writer.newLine();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
