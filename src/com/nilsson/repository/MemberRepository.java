@@ -2,54 +2,67 @@ package com.nilsson.repository;
 
 import com.nilsson.model.Member;
 
-import java.io.*;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class MemberRepository {
 
-    private static final String FILE_PATH = "members.csv";
+    private static final String FILE_PATH = "members.json";
 
+    private static final ObjectMapper MAPPER = new ObjectMapper();
+
+    static {
+        MAPPER.enable(SerializationFeature.INDENT_OUTPUT);
+    }
+
+    // Save member
     public static void save(Member member) {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_PATH, true))) {
-            writer.write(member.getFirstName() + "," + member.getLastName() + "," + member.getPhone() + "," + member.getAddress());
-            writer.newLine();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        List<Member> allMembers = loadAll();
+        allMembers.add(member);
+        rewriteAll(allMembers);
     }
 
+    // Load members
     public static List<Member> loadAll() {
-        List<Member> list = new ArrayList<>();
-        File file = new File(FILE_PATH);
-        if (!file.exists()) return list;
+        File dataFile = new File(FILE_PATH);
 
-        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                String[] t = line.split(",");
-                if (t.length < 4) continue;
-                list.add(new Member(t[0], t[1], t[2], t[3]));
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
+        // Check if the file exists and has content
+        if (!dataFile.exists() || dataFile.length() == 0) {
+            return new ArrayList<>();
         }
 
-        return list;
+        try {
+            Member[] membersArray = MAPPER.readValue(dataFile, Member[].class);
+            return new ArrayList<>(Arrays.asList(membersArray));
+
+        } catch (IOException e) {
+            System.err.println("Error loading members from JSON file: " + e.getMessage());
+            e.printStackTrace();
+            return new ArrayList<>();
+        }
     }
 
+    // Remove member
     public static void remove(Member memberToRemove) {
         List<Member> allMembers = loadAll();
-
         List<Member> updatedMembers = allMembers.stream().filter(m -> !m.equals(memberToRemove)).collect(Collectors.toList());
+        rewriteAll(updatedMembers);
+    }
 
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_PATH, false))) {
-            for (Member member : updatedMembers) {
-                writer.write(member.getFirstName() + "," + member.getLastName() + "," + member.getPhone() + "," + member.getAddress());
-                writer.newLine();
-            }
+    // Rewrite
+    private static void rewriteAll(List<Member> members) {
+        File dataFile = new File(FILE_PATH);
+        try {
+            MAPPER.writeValue(dataFile, members);
         } catch (IOException e) {
+            System.err.println("Error writing members to JSON file: " + e.getMessage());
             e.printStackTrace();
         }
     }

@@ -9,6 +9,10 @@ public class Member {
     private String phone;
     private String address;
 
+    public Member() {
+
+    }
+
     public Member(String firstName, String lastName, String phone, String address) {
         this.firstName = firstName;
         this.lastName = lastName;
@@ -38,7 +42,8 @@ public class Member {
         if (o == null || getClass() != o.getClass()) return false;
         Member member = (Member) o;
 
-        return Objects.equals(firstName, member.firstName) && Objects.equals(lastName, member.lastName) && Objects.equals(phone, member.phone) && Objects.equals(address, member.address);
+        return Objects.equals(firstName, member.firstName) && Objects.equals(lastName, member.lastName)
+                && Objects.equals(phone, member.phone) && Objects.equals(address, member.address);
     }
 
     @Override

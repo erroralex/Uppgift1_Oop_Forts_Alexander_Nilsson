@@ -53,7 +53,7 @@ public class MembersView extends BorderPane {
         formGrid.add(phoneField, 0, 1);
         formGrid.add(addressField, 1, 1);
 
-        // --- Button Group for Save and Remove ---
+        // Button Group for Save and Remove
         HBox buttonBar = new HBox(10, saveButton, removeButton);
         buttonBar.setAlignment(Pos.CENTER);
 
@@ -69,7 +69,7 @@ public class MembersView extends BorderPane {
         formWrapper.setAlignment(Pos.TOP_CENTER);
         formWrapper.setPadding(new Insets(20, 0, 20, 0));
 
-        // --- TABLE SETUP ---
+        // Table setup
         TableColumn<Member, String> firstCol = new TableColumn<>("First Name");
         firstCol.setCellValueFactory(new javafx.scene.control.cell.PropertyValueFactory<>("firstName"));
 

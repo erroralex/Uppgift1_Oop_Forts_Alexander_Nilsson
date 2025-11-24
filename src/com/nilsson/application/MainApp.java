@@ -43,22 +43,25 @@ public class MainApp extends Application {
 
     private Stage window;
     private Scene menuScene, membersScene, stopwatchScene;
+    private MenuView menuView;
+    private MembersView membersView;
+    private StopwatchView stopwatchView;
 
     @Override
     public void start(Stage stage) {
         window = stage;
 
         // Menu
-        MenuView menuView = new MenuView();
+        menuView = new MenuView();
         menuScene = new Scene(menuView.getRoot(), 400, 350);
 
         // Members screen
-        MembersView membersView = new MembersView();
+        membersView = new MembersView();
         new MembersController(membersView);
         membersScene = new Scene(membersView, 750, 750);
 
         // Stopwatch screen
-        StopwatchView stopwatchView = new StopwatchView();
+        stopwatchView = new StopwatchView();
         new StopwatchController(stopwatchView);
         stopwatchScene = new Scene(stopwatchView.getRoot(), 600, 550);
 

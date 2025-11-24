@@ -10,7 +10,7 @@ public class MembersController {
 
     public MembersController(MembersView view) {
 
-        // Load existing members from CSV
+        // Load existing members from JSON
         view.setMembers(MemberRepository.loadAll());
 
         BooleanBinding isFormIncomplete = view.firstNameField.textProperty().isEmpty().or(view.lastNameField.textProperty().isEmpty()).or(view.phoneField.textProperty().isEmpty()).or(view.addressField.textProperty().isEmpty());
